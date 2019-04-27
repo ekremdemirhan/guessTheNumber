@@ -1,8 +1,12 @@
-const readline = require('readline');
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+var target;
+
+function setupGame() {
+
+    document.getElementById("restartGame").hidden=true;
+    document.getElementById("guesses").innerHTML = "A NEW GAME STARTS. <br>"
+    target = randomTarget();
+    hint();
+}
 
 function getPlusMinus(answer, target) {
 
@@ -24,6 +28,7 @@ function getPlusMinus(answer, target) {
 }
 
 function randomTarget() {
+
     let digitCount = 10;
     let digits = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
     let random = "";
@@ -39,42 +44,39 @@ function randomTarget() {
         digits.splice(index, 1);
         digitCount--;
     }
-
     return random;
 }
 
 function hint() {
+
+    let guesses = document.getElementById("guesses");
     let hintGuess = randomTarget();
-    console.log(hintGuess + " " + getPlusMinus(hintGuess, target));
+    guesses.innerHTML += hintGuess + " " + getPlusMinus(hintGuess, target) + "<br>";
     hintGuess = randomTarget();
-    console.log(hintGuess + " " + getPlusMinus(hintGuess, target));
+    guesses.innerHTML += hintGuess + " " + getPlusMinus(hintGuess, target) + "<br>";
     hintGuess = randomTarget();
-    console.log(hintGuess + " " + getPlusMinus(hintGuess, target));
+    guesses.innerHTML += hintGuess + " " + getPlusMinus(hintGuess, target) + "<br>";
 }
 
 
 function getUserInput() {
+
     var guess = document.getElementById('userGuess').value;
-    document.getElementById("demo").innerHTML = "<br><lu><li>"+guess+"</li></lu></br>";
-
-    // document.writeln("<br><lu><li>"+guess+"</li></lu></br>");
+    checkGuess(guess);
 }
-function play() {
 
-    var target = randomTarget();
+function finishGame() {
 
-    hint();
+    document.getElementById("guesses").innerHTML += "CORRECT !! <br>";
+    document.getElementById("restartGame").hidden=false;
+}
 
-    rl.on('line', (answer) => {
+function checkGuess(answer) {
 
-        var guessResult = getPlusMinus(answer, target);
-        if (guessResult.match(/\+\+\+\+/)) {
-
-            console.log("correct!")
-            target = randomTarget();
-            hint();
-        } else {
-            console.log(answer + " " + guessResult);
-        }
-    });
+    var guessResult = getPlusMinus(answer, target);
+    if (guessResult.match(/\+\+\+\+/)) {
+        finishGame();
+    } else {
+        document.getElementById("guesses").innerHTML += answer + " " + guessResult + "<br>";
+    }
 }
