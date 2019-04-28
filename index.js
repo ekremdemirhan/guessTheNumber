@@ -1,81 +1,87 @@
+const digitArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+
 var target;
 
 function setupGame() {
 
-    document.getElementById("restartGame").hidden=true;
-    document.getElementById("guesses").innerHTML = "A NEW GAME STARTS. <br>"
+    document.getElementById("restartGame").hidden = true;
+    document.getElementById("guesses").innerHTML = "A NEW GAME STARTS. <br>";
     target = randomTarget();
-    hint();
+    hint(target);
 }
 
-function getPlusMinus(answer, target) {
+function onCorrectPlace(answer, target, index = 0) {
 
-    let result = "";
-    for (let i = 0; i < answer.length; i++) {
-        if (answer.charAt(i) === target.charAt(i)) {
-            result += "+";
-        }
+    if (answer.length === index) {
+        return "";
     }
-    for (let i = 0; i < answer.length; i++) {
-        for (let j = 0; j < answer.length; j++) {
-            if (i === j) continue;
-            if (answer.charAt(i) === target.charAt(j)) {
-                result += "-";
-            }
-        }
+    if (answer.charAt(index) === target.charAt(index)) {
+        return "+" + onCorrectPlace(answer, target, index + 1);
     }
-    return result;
+    return onCorrectPlace(answer, target, index + 1);
+}
+
+function onWrongPlace(answer, target, index = 0) {
+
+    if (answer.length === index) {
+        return "";
+    }
+    if (answer.split("").filter(digit => answer.charAt(index) !== digit).includes(target.charAt(index))) {
+        return "-" + onWrongPlace(answer, target, index + 1);
+    }
+    return onWrongPlace(answer, target, index + 1);
+}
+
+function correctNumbers(answer, target) {
+    return onCorrectPlace(answer, target) + onWrongPlace(answer, target);
+}
+
+function createRandomTarget(digitArr, randomNumber, digitCount = 10) {
+
+    if (randomNumber.length === 4) {
+        return randomNumber;
+    }
+    let index = Math.floor(Math.random() * digitCount);
+    if (digitArr[index] === '0' && randomNumber.length === 0) {
+        return createRandomTarget(digitArr, randomNumber, digitCount);
+    }
+    return createRandomTarget(digitArr.filter(digit => digitArr[index] !== digit), randomNumber + digitArr[index], digitCount - 1);
 }
 
 function randomTarget() {
 
-    let digitCount = 10;
-    let digits = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
-    let random = "";
-    while (true) {
-        if (random.length === 4) {
-            break;
-        }
-        var index = Math.floor(Math.random() * digitCount);
-        if (digits[index] === '0' && random.length === 0) {
-            continue;
-        }
-        random += digits[index];
-        digits.splice(index, 1);
-        digitCount--;
-    }
-    return random;
+    return createRandomTarget(digitArr, "", digitArr.length);
 }
 
-function hint() {
+function hint(target) {
 
     let guesses = document.getElementById("guesses");
     let hintGuess = randomTarget();
-    guesses.innerHTML += hintGuess + " " + getPlusMinus(hintGuess, target) + "<br>";
+    guesses.innerHTML += hintGuess + " " + correctNumbers(hintGuess, target) + "<br>";
     hintGuess = randomTarget();
-    guesses.innerHTML += hintGuess + " " + getPlusMinus(hintGuess, target) + "<br>";
+    guesses.innerHTML += hintGuess + " " + correctNumbers(hintGuess, target) + "<br>";
     hintGuess = randomTarget();
-    guesses.innerHTML += hintGuess + " " + getPlusMinus(hintGuess, target) + "<br>";
+    guesses.innerHTML += hintGuess + " " + correctNumbers(hintGuess, target) + "<br>";
 }
 
 
 function getUserInput() {
 
-    var guess = document.getElementById('userGuess').value;
+    let guess = document.getElementById('userGuess').value;
     checkGuess(guess);
 }
 
-function finishGame() {
+function finishGame(answer) {
 
-    document.getElementById("guesses").innerHTML += "CORRECT !! <br>";
-    document.getElementById("restartGame").hidden=false;
+    document.getElementById("guesses").innerHTML += answer + " IS CORRECT !! <br>";
+    document.getElementById("restartGame").hidden = false;
 }
 
 function checkGuess(answer) {
 
-    var guessResult = getPlusMinus(answer, target);
+    var guessResult = correctNumbers(answer, target);
     if (guessResult.match(/\+\+\+\+/)) {
-        finishGame();
+        finishGame(answer);
     } else {
         document.getElementById("guesses").innerHTML += answer + " " + guessResult + "<br>";
     }
