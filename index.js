@@ -14,7 +14,7 @@ function setupGame() {
 
     document.getElementById("userGuess").hidden = false;
     document.getElementById("getUserGuess").hidden = false;
-    document.getElementById("newGame").hidden = true;
+    document.getElementById("restartGame").hidden = true;
     document.getElementById("guesses").innerHTML = "A NEW GAME STARTS. <br>";
     document.getElementById("score").innerHTML = "SCORE: " + score + "<br>";
     target = randomTarget();
@@ -116,7 +116,7 @@ function finishGame(target, message) {
 function finishGameAsLost(target, message) {
 
     document.getElementById("guesses").innerHTML += target + message;
-    document.getElementById("newGame").hidden = false;
+    document.getElementById("restartGame").hidden = false;
     document.getElementById("userGuess").hidden = true;
     document.getElementById("getUserGuess").hidden = true;
     clearTimeout(timer);
