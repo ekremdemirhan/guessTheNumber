@@ -77,8 +77,15 @@ function finishGame(answer) {
     document.getElementById("restartGame").hidden = false;
 }
 
+function validate(answer) {
+    return answer.length === 4 && String.prototype.concat(...new Set(answer)).length === 4;
+}
+
 function checkGuess(answer) {
 
+    if (!validate(answer)) {
+        return;
+    }
     var guessResult = correctNumbers(answer, target);
     if (guessResult.match(/\+\+\+\+/)) {
         finishGame(answer);
