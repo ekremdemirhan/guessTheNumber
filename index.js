@@ -1,21 +1,26 @@
 const digitArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 const successMessage = " IS CORRECT !! <br>";
-const failMessage = " WAS THE ANSWER. <br> YOU DID NOT SOLVE IT :( <br>";
+const failMessage = " WAS THE ANSWER. <br> YOU CAN NOT SOLVE IT :( <br>";
+const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
 
 var target;
-var remainingTime = 60;
+var remainingTime = 120;
 var timer;
-
+var score = 0;
 
 function setupGame() {
 
     document.getElementById("userGuess").hidden = false;
     document.getElementById("getUserGuess").hidden = false;
-    document.getElementById("restartGame").hidden = true;
+    document.getElementById("newGame").hidden = true;
     document.getElementById("guesses").innerHTML = "A NEW GAME STARTS. <br>";
+    document.getElementById("score").innerHTML = "SCORE: " + score + "<br>";
     target = randomTarget();
     hint(target);
-    remainingTime = 60;
+    remainingTime = 120;
+    score = 0;
     startTimer();
 
 }
@@ -23,9 +28,11 @@ function setupGame() {
 function startTimer() {
 
     remainingTime--;
-    document.getElementById("timer").innerHTML = "0:" + (remainingTime < 10 ? "0" : "") + String(remainingTime);
+    let minutes = Math.floor(remainingTime/60);
+    let seconds = remainingTime%60;
+    document.getElementById("timer").innerHTML = "TIME: 0" + (minutes < 1 ? "0" : String(minutes)) + ":" + (seconds < 10 ? "0" : "") + String(seconds);
     if(remainingTime === 0) {
-        finishGame(target, failMessage);
+        finishGameAsLost(target, failMessage);
     }
     else {
         timer = setTimeout(startTimer, 1000);
@@ -95,7 +102,21 @@ function getUserInput() {
 function finishGame(target, message) {
 
     document.getElementById("guesses").innerHTML += target + message;
-    document.getElementById("restartGame").hidden = false;
+    document.getElementById("guesses").innerHTML += "BE READY FOR NEXT ROUND<br>";
+    document.getElementById("userGuess").hidden = true;
+    document.getElementById("getUserGuess").hidden = true;
+    score++;
+    clearTimeout(timer);
+    sleep(3000).then(() => {
+        setupGame();
+    })
+
+}
+
+function finishGameAsLost(target, message) {
+
+    document.getElementById("guesses").innerHTML += target + message;
+    document.getElementById("newGame").hidden = false;
     document.getElementById("userGuess").hidden = true;
     document.getElementById("getUserGuess").hidden = true;
     clearTimeout(timer);
