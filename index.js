@@ -3,7 +3,7 @@ const digitArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 var target;
 
 function finishGameAsLost() {
-    document.getElementById("guesses").innerHTML += target + " WAS THE ANSWER.!! <br> YOU DID NOT SOLVE IT :(";
+    document.getElementById("guesses").innerHTML += target + " WAS THE ANSWER. <br> YOU DID NOT SOLVE IT :( <br>";
     document.getElementById("restartGame").hidden = false;
 }
 
