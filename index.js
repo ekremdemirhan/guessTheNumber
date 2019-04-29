@@ -1,11 +1,9 @@
 const digitArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+const successMessage = " IS CORRECT !! <br>";
+const failMessage = " WAS THE ANSWER. <br> YOU DID NOT SOLVE IT :( <br>";
 
 var target;
-
-function finishGameAsLost() {
-    document.getElementById("guesses").innerHTML += target + " WAS THE ANSWER. <br> YOU DID NOT SOLVE IT :( <br>";
-    document.getElementById("restartGame").hidden = false;
-}
+var timer;
 
 function setupGame() {
 
@@ -13,7 +11,7 @@ function setupGame() {
     document.getElementById("guesses").innerHTML = "A NEW GAME STARTS. <br>";
     target = randomTarget();
     hint(target);
-    setTimeout(finishGameAsLost, 5000);
+    timer = setTimeout(finishGame, 60000, target, failMessage);
 
 }
 
@@ -78,10 +76,11 @@ function getUserInput() {
     checkGuess(guess);
 }
 
-function finishGame(answer) {
+function finishGame(target, message) {
 
-    document.getElementById("guesses").innerHTML += answer + " IS CORRECT !! <br>";
+    document.getElementById("guesses").innerHTML += target + message;
     document.getElementById("restartGame").hidden = false;
+    clearTimeout(timer);
 }
 
 function validate(answer) {
@@ -95,7 +94,7 @@ function checkGuess(answer) {
     }
     var guessResult = correctNumbers(answer, target);
     if (guessResult.match(/\+\+\+\+/)) {
-        finishGame(answer);
+        finishGame(target, successMessage);
     } else {
         document.getElementById("guesses").innerHTML += answer + " " + guessResult + "<br>";
     }
