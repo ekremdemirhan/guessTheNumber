@@ -2,12 +2,19 @@ const digitArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 
 var target;
 
+function finishGameAsLost() {
+    document.getElementById("guesses").innerHTML += target + " IS THE ANSWER.!! <br> YOU CANNOT MAKE IT HAPPEN :(";
+    document.getElementById("restartGame").hidden = false;
+}
+
 function setupGame() {
 
     document.getElementById("restartGame").hidden = true;
     document.getElementById("guesses").innerHTML = "A NEW GAME STARTS. <br>";
     target = randomTarget();
     hint(target);
+    setTimeout(finishGameAsLost, 5000);
+
 }
 
 function onCorrectPlace(answer, target, index = 0) {
