@@ -5,9 +5,23 @@
 <body onload="setupGame()">
 <script type="text/javascript" src="./index.js"></script>
 
-<input  id="userGuess" type="text" placeholder="Enter your guess!"/>
-<input id="getUserGuess" type="button" onClick="getUserInput()" value="->"/>
-<p id="guesses"></p>
+<table>
+    <colgroup>
+        <col >
+        <col>
+    </colgroup>
+    <td>
+        <input  id="userGuess" type="text" placeholder="Enter your guess!"/>
+        <input id="getUserGuess" type="button" onClick="getUserInput()" value="->"/>
+        <p id="guesses"></p>
+    </td>
+    <td>
+        <p id="timer" style="font-size:160%;"></p>
+
+    </td>
+</table>
+
+
 <input id="restartGame" type="button" hidden="true" onclick="setupGame()" value="New Game">
 </body>
 </html>

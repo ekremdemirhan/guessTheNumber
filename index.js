@@ -3,7 +3,9 @@ const successMessage = " IS CORRECT !! <br>";
 const failMessage = " WAS THE ANSWER. <br> YOU DID NOT SOLVE IT :( <br>";
 
 var target;
+var remainingTime = 60;
 var timer;
+
 
 function setupGame() {
 
@@ -13,10 +15,22 @@ function setupGame() {
     document.getElementById("guesses").innerHTML = "A NEW GAME STARTS. <br>";
     target = randomTarget();
     hint(target);
-    timer = setTimeout(finishGame, 60000, target, failMessage);
+    remainingTime = 60;
+    startTimer();
 
 }
 
+function startTimer() {
+
+    remainingTime--;
+    document.getElementById("timer").innerHTML = "0:" + (remainingTime < 10 ? "0" : "") + String(remainingTime);
+    if(remainingTime === 0) {
+        finishGame(target, failMessage);
+    }
+    else {
+        timer = setTimeout(startTimer, 1000);
+    }
+}
 function onCorrectPlace(answer, target, index = 0) {
 
     if (answer.length === index) {
