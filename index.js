@@ -20,7 +20,6 @@ function setupGame() {
     target = randomTarget();
     hint(target);
     remainingTime = 120;
-    score = 0;
     startTimer();
 
 }
@@ -120,6 +119,7 @@ function finishGameAsLost(target, message) {
     document.getElementById("userGuess").hidden = true;
     document.getElementById("getUserGuess").hidden = true;
     clearTimeout(timer);
+    score = 0;
 }
 
 function validate(answer) {
