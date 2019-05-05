@@ -1,9 +1,9 @@
 const digitArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 const successMessage = " IS CORRECT !! <br>";
-const failMessage = " WAS THE ANSWER. <br> YOU CAN NOT SOLVE IT :( <br>";
+const failMessage = " WAS THE ANSWER. <br> GAME OVER. <br>";
 const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
-}
+};
 
 var target;
 var remainingTime = 120;
@@ -15,14 +15,12 @@ function setupGame() {
     document.getElementById("userGuess").hidden = false;
     document.getElementById("getUserGuess").hidden = false;
     document.getElementById("newGame").hidden = true;
-    document.getElementById("guesses").innerHTML = "A NEW GAME STARTS. <br>";
+    document.getElementById("guesses").innerHTML = "";
     document.getElementById("score").innerHTML = "SCORE: " + score + "<br>";
     target = randomTarget();
     hint(target);
     remainingTime = 120;
-    score = 0;
     startTimer();
-
 }
 
 function startTimer() {
@@ -101,8 +99,8 @@ function getUserInput() {
 
 function finishGame(target, message) {
 
-    document.getElementById("guesses").innerHTML += target + message;
-    document.getElementById("guesses").innerHTML += "BE READY FOR NEXT ROUND<br>";
+    document.getElementById("guesses").innerHTML = target + message + "<br>" + document.getElementById("guesses").innerHTML;
+    document.getElementById("guesses").innerHTML = "BE READY FOR NEXT ROUND<br>" + document.getElementById("guesses").innerHTML;
     document.getElementById("userGuess").hidden = true;
     document.getElementById("getUserGuess").hidden = true;
     score++;
@@ -115,10 +113,11 @@ function finishGame(target, message) {
 
 function finishGameAsLost(target, message) {
 
-    document.getElementById("guesses").innerHTML += target + message;
+    document.getElementById("guesses").innerHTML = target + message + "<br>" + document.getElementById("guesses").innerHTML;;;
     document.getElementById("newGame").hidden = false;
     document.getElementById("userGuess").hidden = true;
     document.getElementById("getUserGuess").hidden = true;
+    score = 0;
     clearTimeout(timer);
 }
 
@@ -131,10 +130,12 @@ function checkGuess(answer) {
     if (!validate(answer)) {
         return;
     }
+
+    document.getElementById("userGuess").value = "";
     var guessResult = correctNumbers(answer, target);
     if (guessResult.match(/\+\+\+\+/)) {
         finishGame(target, successMessage);
     } else {
-        document.getElementById("guesses").innerHTML += answer + " " + guessResult + "<br>";
+        document.getElementById("guesses").innerHTML = answer + " " + guessResult + "<br>" + document.getElementById("guesses").innerHTML;
     }
 }
