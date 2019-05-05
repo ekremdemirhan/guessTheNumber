@@ -119,6 +119,7 @@ function finishGameAsLost(target, message) {
     document.getElementById("getUserGuess").hidden = true;
     score = 0;
     clearTimeout(timer);
+    score = 0;
 }
 
 function validate(answer) {
