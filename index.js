@@ -14,7 +14,11 @@ function setupGame() {
 
     document.getElementById("userGuess").hidden = false;
     document.getElementById("getUserGuess").hidden = false;
+    document.getElementById("score").hidden = false;
+    document.getElementById("timer").hidden = false;
     document.getElementById("newGame").hidden = true;
+    document.getElementById("gameDescription").hidden = true;
+    document.getElementById("startGame").hidden = true;
     document.getElementById("guesses").innerHTML = "";
     document.getElementById("score").innerHTML = "SCORE: " + score + "<br>";
     target = randomTarget();
