@@ -8,7 +8,7 @@
 
         .column {
             float: left;
-            width: 30%;
+            width: 100%;
         }
 
         .row:after {
@@ -37,8 +37,8 @@
             You are given 3 hints at the beginning of the game.<br><br>
             <b>(+)</b> sign denotes that; guess contains a digit which is also contanied by the target number and it's on the correct place.
             And <b>(-)</b> sign denotes that; guess contains a digit which is also contanied by the target number and it's on the wrong place. <br><br>
-            Let's say, the target number ,which is chosen by randomly, <b>3467</b>. If you try 1234 as guess, the game says that<br> <b>1234 --</b>.
-            Both, target number and guess, contain 3 and 4 digits. However, they are on wrong place. On the other hand, 9017 as guess gives user <b>9017 +</b>.
+            Let's say, the target number ,which is chosen by randomly, <b>3467</b>. If you try 1234 as guess, the game says that <b>1234 --</b>.
+            Both, target number and guess, contain 3 and 4 digits. However, they are on wrong place. <br>On the other hand, 9017 as guess gives user <b>9017 +</b>.
             Because both, target number and guess, just contain 7 and its place is correct.
         </p>
         <input id="startGame" type="button" onClick="setupGame()" value="Start game"/>
